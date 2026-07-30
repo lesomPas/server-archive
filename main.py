@@ -28,24 +28,25 @@ def commit(date: str, state: str = "release", archive: int = 1, branch: str = "m
     zip_with_parent(file_name, f"archives/SauionServer.{branch}.{date}.archive{archive}.{state}")
 
     shutil.rmtree(file_name)
-    print("[info] removed successfully: {file_name}")
+    print(f"[info] removed successfully: {file_name}")
 
     subprocess.run(f'git add . && git commit -m {date} && git push origin main', shell=True)
     print("[info] pushed successfully")
 
 def main():
-    args = sys.argv
+    args = list(sys.argv)
+    args.pop(0)
 
     if not Path(file_name).is_dir():
         print(f"[error] not found dir: {file_name}")
         return
 
-    if len(args) < 2:
+    if len(args) < 1:
         print("[error] required date")
         return
 
-    if len(args) > 5:
-        print(f"[error] extra args: {args[5]}")
+    if len(args) > 4:
+        print(f"[error] extra args: {args[4]}")
         return
 
     try:
